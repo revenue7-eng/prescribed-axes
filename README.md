@@ -2,6 +2,8 @@
 
 **Author:** Andrey Lazarev | Independent Researcher | April 2026
 
+📄 **[Read the paper (PDF)](paper.pdf)**
+
 ## Summary
 
 When a JEPA model trains in a free latent space, it can collapse — map all inputs to a single point. Existing solutions address this through the loss function: adding regularizers (VICReg, SIGReg) or a generative decoder (PAN). We show that the problem is not the loss but the structure of the space.
