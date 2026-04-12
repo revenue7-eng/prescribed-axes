@@ -1,0 +1,152 @@
+{
+  "42_prescribed": {
+    "cond": "prescribed",
+    "seed": 42,
+    "params": 20038,
+    "best_vp": 0.00013132090616477,
+    "best_ep": 49,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Fixed encoder, SIGReg on (lam=0.09)"
+  },
+  "42_free": {
+    "cond": "free",
+    "seed": 42,
+    "params": 25033,
+    "best_vp": 0.011794478266516275,
+    "best_ep": 49,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 5->64->64->3, SIGReg on (lam=0.09)"
+  },
+  "42_free_3d": {
+    "cond": "free_3d",
+    "seed": 42,
+    "params": 24905,
+    "best_vp": 0.00046725673723573745,
+    "best_ep": 50,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 3->64->64->3, SAME input as prescribed, SIGReg on (lam=0.09)"
+  },
+  "42_free_no_sigreg": {
+    "cond": "free_no_sigreg",
+    "seed": 42,
+    "params": 25033,
+    "best_vp": 0.004151081516031633,
+    "best_ep": 45,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Learned MLP 5->64->64->3, SIGReg OFF (lam=0)"
+  },
+  "42_prescribed_no_sigreg": {
+    "cond": "prescribed_no_sigreg",
+    "seed": 42,
+    "params": 20038,
+    "best_vp": 0.00013540486923598668,
+    "best_ep": 50,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Fixed encoder, SIGReg OFF (lam=0)"
+  },
+  "123_prescribed": {
+    "cond": "prescribed",
+    "seed": 123,
+    "params": 20038,
+    "best_vp": 0.0006373142536878668,
+    "best_ep": 48,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Fixed encoder, SIGReg on (lam=0.09)"
+  },
+  "123_free": {
+    "cond": "free",
+    "seed": 123,
+    "params": 25033,
+    "best_vp": 0.011520266918498173,
+    "best_ep": 50,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 5->64->64->3, SIGReg on (lam=0.09)"
+  },
+  "123_free_3d": {
+    "cond": "free_3d",
+    "seed": 123,
+    "params": 24905,
+    "best_vp": 0.005024291202017482,
+    "best_ep": 29,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 3->64->64->3, SAME input as prescribed, SIGReg on (lam=0.09)"
+  },
+  "123_free_no_sigreg": {
+    "cond": "free_no_sigreg",
+    "seed": 123,
+    "params": 25033,
+    "best_vp": 0.006252188158728051,
+    "best_ep": 46,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Learned MLP 5->64->64->3, SIGReg OFF (lam=0)"
+  },
+  "123_prescribed_no_sigreg": {
+    "cond": "prescribed_no_sigreg",
+    "seed": 123,
+    "params": 20038,
+    "best_vp": 0.0006186185901593458,
+    "best_ep": 48,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Fixed encoder, SIGReg OFF (lam=0)"
+  },
+  "777_prescribed": {
+    "cond": "prescribed",
+    "seed": 777,
+    "params": 20038,
+    "best_vp": 0.0006460787372226038,
+    "best_ep": 48,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Fixed encoder, SIGReg on (lam=0.09)"
+  },
+  "777_free": {
+    "cond": "free",
+    "seed": 777,
+    "params": 25033,
+    "best_vp": 0.011526944409859808,
+    "best_ep": 46,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 5->64->64->3, SIGReg on (lam=0.09)"
+  },
+  "777_free_3d": {
+    "cond": "free_3d",
+    "seed": 777,
+    "params": 24905,
+    "best_vp": 0.005218683428073858,
+    "best_ep": 35,
+    "lam": 0.09,
+    "use_sigreg": true,
+    "desc": "Learned MLP 3->64->64->3, SAME input as prescribed, SIGReg on (lam=0.09)"
+  },
+  "777_free_no_sigreg": {
+    "cond": "free_no_sigreg",
+    "seed": 777,
+    "params": 25033,
+    "best_vp": 0.007558113934570237,
+    "best_ep": 49,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Learned MLP 5->64->64->3, SIGReg OFF (lam=0)"
+  },
+  "777_prescribed_no_sigreg": {
+    "cond": "prescribed_no_sigreg",
+    "seed": 777,
+    "params": 20038,
+    "best_vp": 0.0006528423003481676,
+    "best_ep": 50,
+    "lam": 0.0,
+    "use_sigreg": false,
+    "desc": "Fixed encoder, SIGReg OFF (lam=0)"
+  }
+}

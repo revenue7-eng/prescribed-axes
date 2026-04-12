@@ -6,11 +6,9 @@
 
 ## Summary
 
-When a JEPA model trains in a free latent space, it can collapse — map all inputs to a single point. Existing solutions address this through the loss function: adding regularizers (VICReg, SIGReg) or a generative decoder (PAN). We show that the problem is not the loss but the structure of the space.
+When a JEPA model trains in a free latent space, it can collapse — map all inputs to a single point. Existing solutions address this through the loss function: adding regularizers (VICReg, SIGReg) or a generative decoder (PAN). We show that in settings where domain-relevant coordinates are available, the problem is not the loss but the structure of the space.
 
 If the axes of the latent space are defined before training — from physical coordinates, semantic features, or cluster centroids — collapse becomes structurally impossible, and regularization is unnecessary. We call this approach **prescribed axes**.
-
-Four experiments across different modalities confirm this:
 
 | Experiment | Modality | Prescribed | Free | Gap | Metric |
 |---|---|---|---|---|---|
@@ -21,19 +19,26 @@ Four experiments across different modalities confirm this:
 
 Experiments are ordered by increasing evidential depth: from pilot studies (1–2) to controlled experiments with ablation (3–4).
 
-SIGReg degrades free representations and has no effect on prescribed ones — regularization treats what prescribed axes prevent.
+## Key Controls (v7)
+
+**Equal-input control:** A free encoder receiving the same normalized (x, y, θ) as prescribed is 7.6× worse — the advantage is from coordinate fixation, not information access.
+
+**SIGReg ablation:** Removing SIGReg improves the free encoder by 1.9× (0.006 vs 0.012). SIGReg on prescribed: 0.6% effect. Regularization treats what prescribed axes prevent.
 
 ## Repository Structure
 
 ```
 prescribed-axes/
 ├── README.md
-├── exp1_shov_jepa/           # Experiment 2 in paper: Vision (UI understanding)
+├── paper.pdf
+├── requirements.txt
+├── reviewer_response_experiments.py   # Equal-input control + SIGReg ablation (5 conditions × 3 seeds)
+├── exp1_shov_jepa/                    # Experiment 2 in paper: Vision (UI understanding)
 │   ├── README.md
 │   ├── experiment_v4_vhgrid.ipynb
 │   ├── experiment_v5_prescribed_vs_free.ipynb
 │   └── shov-jepa-report.docx
-├── exp2_lewm_state/          # Experiment 3 in paper: State prediction (Push-T)
+├── exp2_lewm_state/                   # Experiment 3 in paper: State prediction (Push-T)
 │   ├── README.md
 │   ├── code/
 │   │   ├── lewm_pusht_colab.ipynb
@@ -41,7 +46,7 @@ prescribed-axes/
 │   └── results/
 │       ├── lewm_results.json
 │       └── lewm_pusht_results.png
-├── exp3_lewm_pixel/          # Experiment 4 in paper: Pixel prediction (CNN vs prescribed)
+├── exp3_lewm_pixel/                   # Experiment 4 in paper: Pixel prediction (CNN vs prescribed)
 │   ├── README.md
 │   ├── code/
 │   │   ├── lewm_pixels_full.ipynb
@@ -52,16 +57,20 @@ prescribed-axes/
 │   │   ├── results.json
 │   │   └── results.png
 │   └── lewm-pixel-report.docx
-└── exp4_speech_jepa/         # Experiment 1 in paper: Speech (clustering anchors)
-    ├── README.md
-    ├── speech_jepa_2x2_v6.ipynb
-    └── results/
-        ├── eval_results.pkl
-        ├── final_results.pkl
-        ├── calibration.pkl
-        ├── cluster_metrics.png
-        ├── training_curves.png
-        └── factorial_heatmap.png
+├── exp4_speech_jepa/                  # Experiment 1 in paper: Speech (clustering anchors)
+│   ├── README.md
+│   ├── speech_jepa_2x2_v6.ipynb
+│   └── results/
+│       ├── eval_results.pkl
+│       ├── final_results.pkl
+│       ├── calibration.pkl
+│       ├── cluster_metrics.png
+│       ├── training_curves.png
+│       └── factorial_heatmap.png
+└── reviewer_results/                  # Equal-input control + SIGReg ablation results
+    ├── full_results.json
+    ├── summary.json
+    └── history_*.json
 ```
 
 **Note:** Folder names (`exp1_`–`exp4_`) reflect the chronological order in which experiments were conducted. The paper orders experiments by evidential depth: Speech JEPA (pilot) → Shov-JEPA (pilot) → LeWM State (controlled) → LeWM Pixel (controlled). Folder names are preserved for backward compatibility.
@@ -79,7 +88,7 @@ Prescribed axes (position, functionality, depth) from View Hierarchy vs. free 64
 **Run:** Open `experiment_v5_prescribed_vs_free.ipynb` in Google Colab (T4 GPU).
 
 ### Experiment 3 (paper): LeWM State (Robotic Control) — `exp2_lewm_state/`
-Prescribed physical coordinates (x, y, θ) vs. free MLP encoder on Push-T environment. 3 seeds, 50 epochs. Prescribed: 0.004 val loss. Free: 0.157. Gap: 38×. SIGReg ablation: free without SIGReg achieves 0.037, free with SIGReg degrades to 0.156 (4.2× worse). SIGReg on prescribed: zero effect.
+Prescribed physical coordinates (x, y, θ) vs. free MLP encoder on Push-T environment. 3 seeds, 50 epochs. Prescribed: 0.004 val loss. Free: 0.157. Gap: 38×. SIGReg ablation: removing SIGReg improves free by 1.9×; SIGReg on prescribed: 0.6% effect.
 
 **Run:** Open `lewm_pusht_colab.ipynb` in Google Colab, or run `lewm_pusht_experiment.py --mode synthetic` locally without dependencies.
 
@@ -88,16 +97,30 @@ Prescribed state coordinates (20K params) vs. CNN encoder on raw 96×96 pixels (
 
 **Run:** Open `lewm_pixels_full.ipynb` in Google Colab, or run locally on CPU.
 
+### Equal-Input Control + SIGReg Ablation — `reviewer_response_experiments.py`
+Five conditions × 3 seeds, isolating fixation from information access:
+
+| Condition | Mean val loss | vs Prescribed |
+|---|---|---|
+| Prescribed | 0.000472 | 1.0× |
+| Free (5D input) | 0.011614 | 24.6× |
+| Free 3D (same input as prescribed) | 0.003570 | 7.6× |
+| Free no SIGReg | 0.005987 | 12.7× |
+| Prescribed no SIGReg | 0.000469 | 1.0× |
+
+Free_3d receives identical normalized (x, y, θ) input — same information, but learned projection instead of fixed identity. 7.6× worse confirms the advantage is from fixation, not data access.
+
+**Run:** `python reviewer_response_experiments.py --synthetic --seeds 42 123 777`
+
 ## Key Finding
 
 Prescribed axes reframe the collapse problem. The current debate asks: "how do we prevent collapse in a free space?" — through regularization (VICReg, SIGReg) or generative supervision (PAN). Prescribed axes ask a different question: "why does the encoder define the space at all?"
 
-This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. Prescribed axes operate at a level where regularization is not yet defined.
+This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. The equal-input control confirms the advantage is from coordinate fixation, not privileged information.
 
 ## Continuation: Paper 2
 
 **→ [Semantic Drift, Not Rank Collapse](https://github.com/revenue7-eng/prescribed-axes-drift)** — identifies *why* prescribed axes work: the free encoder's coordinate system drifts so rapidly that downstream modules cannot learn in it.
-
 
 ## Citation
 
