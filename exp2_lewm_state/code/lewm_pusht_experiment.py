@@ -14,7 +14,7 @@ Run:
   # Or without gym-pusht:
   python lewm_pusht_experiment.py --synthetic
 
-Author: Andrew + Claude (Ядро project)
+Author: Andrey Lazarev
 """
 
 import os, time, json, argparse
