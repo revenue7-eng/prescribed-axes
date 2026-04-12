@@ -94,6 +94,11 @@ Prescribed axes reframe the collapse problem. The current debate asks: "how do w
 
 This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. Prescribed axes operate at a level where regularization is not yet defined.
 
+## Continuation: Paper 2
+
+**→ [Semantic Drift, Not Rank Collapse](https://github.com/revenue7-eng/prescribed-axes-drift)** — identifies *why* prescribed axes work: the free encoder's coordinate system drifts so rapidly that downstream modules cannot learn in it.
+
+
 ## Citation
 
 ```
