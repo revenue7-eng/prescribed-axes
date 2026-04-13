@@ -25,6 +25,8 @@ Experiments are ordered by increasing evidential depth: from pilot studies (1–
 
 **SIGReg ablation:** Removing SIGReg improves the free encoder by 1.9× (0.006 vs 0.012). SIGReg on prescribed: 0.6% effect. Regularization treats what prescribed axes prevent.
 
+**Random axes control (NEW):** A frozen random orthogonal projection of the same input performs comparably to prescribed (0.61×) — while a free learned encoder is 4.5× worse. The advantage is from coordinate stability, not axis semantics. Even meaningless but fixed axes beat meaningful but drifting ones.
+
 ## Repository Structure
 
 ```
@@ -67,6 +69,10 @@ prescribed-axes/
 │       ├── cluster_metrics.png
 │       ├── training_curves.png
 │       └── factorial_heatmap.png
+├── random_axes_control/               # Random axes + isotropic normalization controls
+│   ├── RESULTS.md
+│   ├── run_random_axes_control.py
+│   └── run_isotropic_control.py
 └── reviewer_results/                  # Equal-input control + SIGReg ablation results
     ├── full_results.json
     ├── summary.json
@@ -112,11 +118,24 @@ Free_3d receives identical normalized (x, y, θ) input — same information, but
 
 **Run:** `python reviewer_response_experiments.py --synthetic --seeds 42 123 777`
 
+### Random Axes Control — `random_axes_control/`
+Three conditions × 3 seeds, isolating fixation from axis semantics:
+
+| Condition | Mean val loss | vs Prescribed |
+|---|---|---|
+| prescribed | 0.000673 | 1.0× |
+| random_fixed | 0.000408 | 0.61× (better) |
+| free_3d | 0.003007 | 4.47× (worse) |
+
+A frozen random orthogonal rotation performs comparably to prescribed axes — even slightly better. A free encoder with identical input is 4.5× worse. The advantage is from coordinate stability, not meaningful axes. Isotropic normalization control confirms the gap is not explained by scale differences.
+
+**Run:** `python random_axes_control/run_random_axes_control.py`
+
 ## Key Finding
 
 Prescribed axes reframe the collapse problem. The current debate asks: "how do we prevent collapse in a free space?" — through regularization (VICReg, SIGReg) or generative supervision (PAN). Prescribed axes ask a different question: "why does the encoder define the space at all?"
 
-This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. The equal-input control confirms the advantage is from coordinate fixation, not privileged information.
+This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. The equal-input control confirms the advantage is from coordinate fixation, not privileged information. The random axes control confirms the primary mechanism is fixation, not axis semantics.
 
 ## Continuation: Paper 2
 
