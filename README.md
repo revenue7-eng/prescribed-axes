@@ -19,13 +19,13 @@ If the axes of the latent space are defined before training — from physical co
 
 Experiments are ordered by increasing evidential depth: from pilot studies (1–2) to controlled experiments with ablation (3–4).
 
-## Key Controls (v7)
+## Key Controls (v9)
 
 **Equal-input control:** A free encoder receiving the same normalized (x, y, θ) as prescribed is 7.6× worse — the advantage is from coordinate fixation, not information access.
 
 **SIGReg ablation:** Removing SIGReg improves the free encoder by 1.9× (0.006 vs 0.012). SIGReg on prescribed: 0.6% effect. Regularization treats what prescribed axes prevent.
 
-**Random axes control (NEW):** A frozen random orthogonal projection of the same input performs comparably to prescribed (0.61×) — while a free learned encoder is 4.5× worse. The advantage is from coordinate stability, not axis semantics. Even meaningless but fixed axes beat meaningful but drifting ones.
+**Random axes control:** Tested at two data scales. At 200 episodes, any fixed coordinate system (meaningful or random) outperforms a learned one by 4–7×. At 500 episodes, the relationship inverts: the free encoder converges to ~10⁻⁹ while fixed conditions plateau at ~8.5×10⁻⁴. The advantage of prescribed axes is sample efficiency — eliminating the dual-task problem at the cost of a fixed accuracy ceiling.
 
 ## Repository Structure
 
@@ -69,10 +69,13 @@ prescribed-axes/
 │       ├── cluster_metrics.png
 │       ├── training_curves.png
 │       └── factorial_heatmap.png
-├── random_axes_control/               # Random axes + isotropic normalization controls
+├── random_axes_control/               # Random axes + scaling analysis
 │   ├── RESULTS.md
 │   ├── run_random_axes_control.py
-│   └── run_isotropic_control.py
+│   ├── run_isotropic_control.py
+│   ├── all_results_500ep.json         # Full 500ep results (18 runs with training curves)
+│   ├── random_axes_results_500ep.png  # Training curves + bar charts for 500ep
+│   └── pusht_data_synthetic_500ep.npz # Synthetic Push-T dataset (500 episodes)
 └── reviewer_results/                  # Equal-input control + SIGReg ablation results
     ├── full_results.json
     ├── summary.json
@@ -119,7 +122,10 @@ Free_3d receives identical normalized (x, y, θ) input — same information, but
 **Run:** `python reviewer_response_experiments.py --synthetic --seeds 42 123 777`
 
 ### Random Axes Control — `random_axes_control/`
-Three conditions × 3 seeds, isolating fixation from axis semantics:
+
+Isolating fixation from axis semantics at two data scales:
+
+**Low-data regime (200 episodes, 30 epochs, 3 seeds):**
 
 | Condition | Mean val loss | vs Prescribed |
 |---|---|---|
@@ -127,7 +133,16 @@ Three conditions × 3 seeds, isolating fixation from axis semantics:
 | random_fixed | 0.000408 | 0.61× (better) |
 | free_3d | 0.003007 | 4.47× (worse) |
 
-A frozen random orthogonal rotation performs comparably to prescribed axes — even slightly better. A free encoder with identical input is 4.5× worse. The advantage is from coordinate stability, not meaningful axes. Isotropic normalization control confirms the gap is not explained by scale differences.
+**High-data regime (500 episodes, 50 epochs, 3–9 runs per condition):**
+
+| Condition | Mean val loss | vs Prescribed |
+|---|---|---|
+| prescribed | 8.51×10⁻⁴ | 1.0× |
+| random_fixed | 8.51×10⁻⁴ | 1.00× |
+| free_3d | 1.22×10⁻⁹ | ~700,000× better |
+| free_5d | 2.92×10⁻⁹ | ~290,000× better |
+
+At low data, fixation wins. At high data, flexibility wins — the free encoder surpasses fixed conditions by six orders of magnitude. Prescribed axes provide sample efficiency, not absolute superiority.
 
 **Run:** `python random_axes_control/run_random_axes_control.py`
 
@@ -135,7 +150,9 @@ A frozen random orthogonal rotation performs comparably to prescribed axes — e
 
 Prescribed axes reframe the collapse problem. The current debate asks: "how do we prevent collapse in a free space?" — through regularization (VICReg, SIGReg) or generative supervision (PAN). Prescribed axes ask a different question: "why does the encoder define the space at all?"
 
-This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. The equal-input control confirms the advantage is from coordinate fixation, not privileged information. The random axes control confirms the primary mechanism is fixation, not axis semantics.
+This is not a competing method but a change in problem formulation. The SIGReg diagnostic confirms this empirically: SIGReg is neither helpful nor harmful under prescribed axes — it is irrelevant. The equal-input control confirms the advantage is from coordinate fixation, not privileged information.
+
+The random axes control reveals both the mechanism and its limits: prescribed axes eliminate the dual-task problem (simultaneously learning the space and predicting in it), but at the cost of a fixed accuracy ceiling. In the low-data regime, fixation dominates; in the high-data regime, the flexibility of a learned space dominates. The advantage is sample efficiency — guaranteed coordinate stability from the first epoch, without requiring the free encoder to discover it.
 
 ## Continuation: Paper 2
 
