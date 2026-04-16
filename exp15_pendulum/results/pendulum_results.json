@@ -1,0 +1,14 @@
+{
+  "source": "dim-sweep/README.md (numbers from original run)",
+  "environment": "simple_pendulum",
+  "dof": 2,
+  "note": "Prescribed and free receive identical 2D input. No subspace selection.",
+  "results": {
+    "dim_1": {"prescribed": 0.009311, "free": 0.004456, "winner": "free"},
+    "dim_2": {"prescribed": 0.003555, "free": 0.001916, "winner": "free"},
+    "dim_3": {"prescribed": 0.002219, "free": 0.001376, "winner": "free"},
+    "dim_4": {"prescribed": 0.001586, "free": 0.000581, "winner": "free"},
+    "dim_5": {"prescribed": 0.001347, "free": 0.000539, "winner": "free"}
+  },
+  "conclusion": "Prescribed never wins. No crossover found."
+}
