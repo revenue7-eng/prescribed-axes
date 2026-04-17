@@ -201,7 +201,7 @@ For Push-T experiments with real physics: install `gymnasium`, `gym-pusht`, and 
 
 ## Continuation: Paper 2
 
-**→ [Semantic Drift, Not Rank Collapse](https://github.com/revenue7-eng/prescribed-axes-drift)** — identifies *why* prescribed axes work: the free encoder's coordinate system drifts so rapidly that downstream modules cannot learn in it.
+**→ [Semantic Drift, Not Rank Collapse](https://github.com/revenue7-eng/prescribed-axes-drift)** — investigates the dynamics of the free encoder's representation space that prescribed axes bypass: coordinate drift, its two phases, and why standard remedies (LR tuning, EMA, PCA alignment) do not resolve it.
 
 ## Citation
 
