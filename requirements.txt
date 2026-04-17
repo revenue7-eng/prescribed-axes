@@ -1,6 +1,17 @@
 torch>=2.0
 numpy>=1.24
+matplotlib>=3.7
 
 # For gym-pusht experiments (optional, not needed for --synthetic mode):
 # gymnasium
 # gym-pusht
+# pymunk
+
+# For Speech JEPA (Experiment 1):
+# torchaudio
+# librosa
+# scikit-learn
+
+# For Shov-JEPA (Experiment 2):
+# pillow
+# beautifulsoup4
