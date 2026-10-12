@@ -1,3 +1,11 @@
+## Status: superseded
+
+The quantitative claims below did not survive later checking. The prescribed-versus-free ratios (5x to 38x) and the 500-episode result are explained by two measurement defects. The free encoder's first layer discarded the scale of its raw input (Ф76). Each encoder was scored on its own latent, so ratios across different latent geometries are not comparable (Ф77). On a common target with equally scaled input, a fixed and a learned encoder are not distinguishable (Ф78, Ф79).
+
+The text and code are left unchanged as a record of what was claimed. The current status of every result is kept in [coordinate-stability](https://github.com/revenue7-eng/coordinate-stability), EVIDENCE.md (Ф80, Ф82, Ф87, Ф88). This repository is archived.
+
+---
+
 # The Space Matters More Than the Loss: JEPA Collapse as a Problem of Structure, Not Optimization
 
 **Author:** Andrey Lazarev | Independent Researcher | April 2026
